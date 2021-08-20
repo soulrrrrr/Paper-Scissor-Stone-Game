@@ -11,3 +11,94 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.button {
+  margin: auto;
+  text-align: center;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 30px;
+  overflow: auto;
+  min-height: 300px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.graph {
+  max-width: 100px;
+  text-align: center;
+  font-size: 2.5em;
+  margin: 20px;
+  overflow: auto;
+  outline: 5px solid rgba(128, 77, 151, 0.534);
+  padding: 20px;
+  transition-duration: 0.1s;
+  /* border-radius: 5px; */
+}
+
+.graph:hover {
+  outline: 20px solid rgba(128, 77, 151, 0.534);
+  transition-duration: 0.1s;
+}
+
+.choice-list {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.label {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.room{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  font-size: 24px;
+  line-height: 24px;
+  padding: 8px;
+  width: auto;
+  min-height: 16px;
+  border: unset;
+  border-radius: 4px;
+  outline-color: rgb(84 105 212 / 0.5);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+              rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, 
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+}
+
+.btn {
+  display: inline-block;
+  background: rgb(7, 206, 233);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.box {
+  text-align: center;
+}
+
+.lock {
+  margin-left: 30px;
+  font-family: inherit;
+}
