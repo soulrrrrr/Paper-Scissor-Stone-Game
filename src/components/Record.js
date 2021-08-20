@@ -22,6 +22,7 @@ let Record = ({ dispatch }) => {
   database.ref(`rooms/${room.id}/${room.pos}`).onDisconnect().remove();
   
   let battle = (myId, oppoId) => {
+    console.log(myId, oppoId);
     if (myId === oppoId) {
       return `平手~~~`;
     }
@@ -65,8 +66,10 @@ let Record = ({ dispatch }) => {
     dispatch(goWait());
   }
   else if (now === 'WAIT' && locked.myId && locked.oppoId) {
-    setBattleResult(battle(locked.myId, locked.oppoId));
     dispatch(goBattle());
+  }
+  else if (now === 'BATTLE' && locked.myId && locked.oppoId && !battleResult) {
+    setBattleResult(() => battle(locked.myId, locked.oppoId));
   }
 
   return (
