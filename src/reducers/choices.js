@@ -20,16 +20,6 @@ const choice = (state, action) => {
 
 const choices = (state=[], action) => {
   return state.map(c => choice(c, action));
-  // switch (action.type) {
-  //   case 'TOGGLE_CHOICE':
-  //     return state.map(c =>
-  //       choice(c, action)  
-  //     );
-  //   case 'COMPETE':
-  //     return state.map(c => choice(c, action));
-  //   default:
-  //     return state;
-  // }
 }
 
 export default choices;

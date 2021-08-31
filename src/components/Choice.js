@@ -22,7 +22,7 @@ const Choice = ({ id, choosed, onClick, locked }) => {
         className="graph"
         src={getImg(id)}
         alt="scissor"
-        onClick={locked.myId === null ? onClick : undefined}
+        onClick={locked.myId === 0 ? onClick : undefined}
         style={{
           outline: choosed ? "20px solid rgba(244, 200, 0, 0.828)" : ""
         }}
@@ -30,9 +30,6 @@ const Choice = ({ id, choosed, onClick, locked }) => {
       </img>
     </div>
   )
-}
-Choice.propTypes = {
-  onClick: PropTypes.func.isRequired,
 }
 
 export default Choice;

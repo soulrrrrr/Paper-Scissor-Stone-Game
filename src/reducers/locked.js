@@ -2,7 +2,7 @@ const locked = (state={}, action) => {
   switch (action.type) {
     case 'LOCK_CHOICE':
       if (action.id === null) return;
-      if (state.myId === null) {
+      if (state.myId === 0) {
         return {
           ...state,
           myId: action.id,
@@ -10,7 +10,7 @@ const locked = (state={}, action) => {
       };
       return {
         ...state,
-        myId: null,
+        myId: 0,
       };
     case 'OPPO_LOCK':
       return {
@@ -20,8 +20,8 @@ const locked = (state={}, action) => {
     case 'CLEAR':
       return {
         ...state, 
-        myId: null,
-        oppoId: null,
+        myId: 0,
+        oppoId: 0,
       };
     default:
       return state;

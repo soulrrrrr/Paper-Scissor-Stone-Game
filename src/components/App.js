@@ -1,24 +1,30 @@
-import React from 'react'
-import VisibleChoiceList from '../containers/VisibleChoiceList';
+import { useEffect } from 'react'
+import ChoiceList from '../components/ChoiceList';
 import Record from '../components/Record';
-import LockList from '../containers/LockList';
+import Lock from '../components/Lock';
 import LoginList from '../containers/LoginList';
 import { useSelector } from 'react-redux'
+import socket from '../socket';
 
 const App = () => {
-  let room = useSelector((state) => state.room);
+  let s = useSelector((state) => state);
   let now = useSelector((state) => state.now);
-  let state = useSelector((state) => state);
+  console.log(s);
+  useEffect(() => {
+    socket.connect();
+    return () => {
+      socket.disconnect();
+    }
+  }, []);
 
-  console.log(state);
   return (
     <div className="container">
       <LoginList />
       {now !== 'LOGIN' &&
         <div>
           <Record/>
-          <VisibleChoiceList />
-          <LockList />
+          <ChoiceList />
+          <Lock/>
         </div>
       }
     </div>

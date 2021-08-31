@@ -12,11 +12,10 @@ export const lockChoice = (id) => {
   }
 }
 
-export const enterRoom = (id, pos, player) => {
+export const enterRoom = (id, player) => {
   return {
     type: 'ENTER_ROOM',
     id,
-    pos,
     player,
   }
 }

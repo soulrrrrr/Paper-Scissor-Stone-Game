@@ -22,8 +22,8 @@ let init = {
     choosed: false,
   }],
   locked: {
-    myId: null,
-    oppoId: null,
+    myId: 0,
+    oppoId: 0,
   },
   room: {
     id: null,

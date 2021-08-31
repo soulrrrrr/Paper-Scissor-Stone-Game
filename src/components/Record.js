@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { connect } from 'react-redux';
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux'
 import '../index.css'
-import { database } from '../config'
-import { goIdle, goWait, goBattle, clear, oppoLock, win, lose } from '../actions'
+import socket from '../socket';
+import { clear, win, lose } from '../actions'
 
 const quan = {
   1: '石頭',
@@ -11,75 +11,55 @@ const quan = {
   3: '布',
 };
 
-let Record = ({ dispatch }) => {
-  const [oppoLogin, setOppoLogin] = useState(false);
+let Record = () => {
+  const [oppoLock, setOppoLock] = useState(0);
+  const [battle, setBattle] = useState(false);
   const [battleResult, setBattleResult] = useState('');
-  let score = useSelector((state) => state.record);
-  let room = useSelector((state) => state.room);
-  let locked = useSelector((state) => state.locked);
-  let now = useSelector((state) => state.now);
-  let oppoPos = (room.pos === 0 ? 1 : 0);
-  database.ref(`rooms/${room.id}/${room.pos}`).onDisconnect().remove();
-  
-  let battle = (myId, oppoId) => {
-    if (myId === oppoId) {
-      return `平手~~~`;
-    }
-    else if ((myId+1)%3 === oppoId%3) {
-      dispatch(win());
-      return `你贏了!`;
-    }
-    else {
-      dispatch(lose());
-      return `你輸了...`;
-    }
-  }
+  const dispatch = useDispatch();
 
-  if (now !== 'LOGIN' && !oppoLogin) {
-    let oppo = database.ref(`rooms/${room.id}/${oppoPos}`);
-    oppo.on('value', (snapshot) => {
-      if (snapshot.exists()) {
-        alert(`${snapshot.val().player}已加入戰局!`);
-        setOppoLogin(true);
-        oppo.off();
-      }
-    });
-  };
+  let score = useSelector((state) => state.record);
   
-  if (!locked.oppoId) {
-    let oppo = database.ref(`rooms/${room.id}/${oppoPos}/lock`);
-    oppo.on('value', (snapshot) => {
-      const data = snapshot.val();
-      if (now === 'IDLE' && data && !locked.oppoId) {
-        dispatch(oppoLock(data));
+  useEffect(() => {
+    socket.on("message", (msg) => {
+      if (msg.method === "oppoLock") {
+        console.log(msg.oppoLock);
+        setOppoLock(msg.oppoLock);
       }
-      if (now === 'WAIT' && data) {
-        dispatch(oppoLock(data));
-      }
-      if (now === 'BATTLE' && !data) {
-        dispatch(goIdle());
+
+      if (msg.method === "battleResult") {
+        setBattle(true);
+        if (msg.battleResult === 1) {
+          setBattleResult('你贏了!');
+          dispatch(win());
+        }
+        else if (msg.battleResult === -1) {
+          setBattleResult('你輸了..');
+          dispatch(lose());
+        }
+        else {
+          setBattleResult('平手~~~');
+        }
+        console.log(msg.battleResult);
       }
     });
-  }
-  else if (now === 'IDLE' && locked.myId && locked.oppoId) {
-    dispatch(goWait());
-  }
-  else if (now === 'WAIT' && locked.myId && locked.oppoId) {
-    setBattleResult(battle(locked.myId, locked.oppoId));
-    dispatch(goBattle());
-  }
+
+  }, []);
 
   return (
     <div className="label">
-      {now !== 'BATTLE' && locked.oppoId && 
+      <div>
+        Win: {score.win}
+        Lose: {score.lose}
+      </div>
+      {oppoLock !== 0 && 
         <div>
           {`你的對手已出拳!`}
         </div>
       }
-      {now === "BATTLE" && locked.myId && 
+      {battle && 
         <div>
           <div>
-            {`你的對手出${quan[locked.oppoId]}`}
+            {`你的對手出${quan[oppoLock]}`}
           </div>
           <div>
             {battleResult}
@@ -87,26 +67,21 @@ let Record = ({ dispatch }) => {
           <button
             className="btn"
             onClick={() => {
-              dispatch(clear());
-              database.ref(`rooms/${room.id}/${room.pos}`).update({
-                lock: null,
+              setOppoLock(0);
+              setBattle(false);
+              setBattleResult('');
+              socket.emit("message", {
+                method: "restart",
               });
+              dispatch(clear());
             }}
           >
             下一把
           </button>
         </div>
       }
-      <div>
-        Win: {score.win}
-      </div>
-      <div>
-        Lose: {score.lose}
-      </div>
     </div>
   )
 }
-
-Record = connect()(Record);
 
 export default Record;

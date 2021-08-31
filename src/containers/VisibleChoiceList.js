@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { toggleChoice } from '../actions'
 import ChoiceList from '../components/ChoiceList'
+import socket from '../socket'
 
 
 const mapStateToProps = (state) => {
@@ -13,6 +14,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onChoiceClick: (id) => {
+      socket.emit("message", {
+        method: "choose",
+        userID: socket.id,
+        choosed: id,
+      });
       dispatch(toggleChoice(id))
     }
   }

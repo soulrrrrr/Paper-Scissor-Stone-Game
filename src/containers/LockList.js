@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { lockChoice, goWait, goBattle } from '../actions'
 import Lock from '../components/Lock'
 import { database } from '../config'
+import socket from '../socket';
 
 const mapStateToProps = (state) => {
   let lockedChoice = state.choices.filter(choice => choice.choosed === true)[0]
@@ -15,24 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLockClick: (room, chooseId, locked, now) => {
-      console.log(now);
-      if (chooseId === null) return;
-      // if (locked.myId !== null && now === 'IDLE') {
-      //   database.ref(`rooms/${room.id}/${room.pos}`).update({
-      //     lock: null,
-      //   })
-      //   dispatch(lockChoice(chooseId));
-      // }
-      if (now === 'IDLE') {
-        dispatch(goWait());
-        dispatch(lockChoice(chooseId));
-        database.ref(`rooms/${room.id}/${room.pos}`).update({
-          lock: chooseId,
-        });
-      }
-      else return;
-    }
+    
   }
 }
 
