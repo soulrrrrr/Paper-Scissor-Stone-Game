@@ -22,19 +22,12 @@ npm install
 npm start
 ```
 
-## Basic install
+# Change Log
 
-```
-npm install --global yarn
-yarn add react
-yarn add redux
-yarn add react-redux
-yarn add firebase
+| Date | Description |
+| 2021.8.20 | First Release |
+| 2021.8.31 | Use webserver instead of database, add score feature |
 
-yarn build
-firebase deploy
-```
+# Improvement
 
-## Bugs
-
-score sometimes not right
+Add some CSS
