@@ -46,7 +46,7 @@ const Lock = () => {
           className="btn"
           style={{backgroundColor: locked.myId !== 0 && "red"}}
           onClick={() => {
-            if (choosed.id) {
+            if (choosed?.id) {
               onLockClick(choosed.id);
               dispatch(lockChoice(choosed.id));
             }
