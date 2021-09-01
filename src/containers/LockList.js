@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { lockChoice, goWait, goBattle } from '../actions'
 import Lock from '../components/Lock'
-import { database } from '../config'
 import socket from '../socket';
 
 const mapStateToProps = (state) => {

@@ -4,24 +4,22 @@ Think carefully. Beat your opponent.
 
 ## How to use
 
-It's powered by Firebase, so you need to create a new Firebase account.\
-Add config.js to src folder.
+You can click the link in the description above or deploy server by yourself:
 
-``` javascript
-// config.js
+1. Clone this repository
 
-import firebase from 'firebase/app';
-import 'firebase/database';
+2. Open the folder, go to /server
 
-let config = {
-  //yours
-};
+3. Run
+```
+npm install
+node app.js
+```
 
-firebase.initializeApp(config);
-
-let database = firebase.database();
-
-export { database };
+4. Go back to /, run
+```
+npm install
+npm start
 ```
 
 ## Basic install
