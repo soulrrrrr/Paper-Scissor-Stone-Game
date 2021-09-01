@@ -10,7 +10,7 @@ const Login = ({ room, now, onEnterRoomClick }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("roomIsFull", (message) => alert(message));
+    socket.on("roomIsFull", (message) => {alert(message);});
     socket.on("login", (message) => {
       dispatch(enterRoom(message.roomId, message.id));
     });
