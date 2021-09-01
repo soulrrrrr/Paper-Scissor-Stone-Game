@@ -18,7 +18,7 @@ const getLockedQuan = (id) => {
 }
 
 function onLockClick(chooseId) {
-  if (chooseId === null) return;
+  if (chooseId === null || chooseId === 0) return;
   socket.emit("message", {
     method: "lock",
     userId: socket.id,
@@ -46,8 +46,10 @@ const Lock = () => {
           className="btn"
           style={{backgroundColor: locked.myId !== 0 && "red"}}
           onClick={() => {
-            onLockClick(choosed.id);
-            dispatch(lockChoice(choosed.id));
+            if (choosed.id) {
+              onLockClick(choosed.id);
+              dispatch(lockChoice(choosed.id));
+            }
           }}
         >
           {locked.myId === 0 ? 'Lock!' : 'Unlock!'}

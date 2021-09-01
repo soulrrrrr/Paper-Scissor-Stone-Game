@@ -75,7 +75,6 @@ io.on("connection", (socket) => {
         mapSocketIdtoRoomId[socket.id] = message.roomId;       
         mapSocketIdtoUserId[socket.id] = message.id;
         mapUserIdtoSocketId[message.id] = socket.id;
-
         socket.emit("login", {
           roomId: message.roomId,
           id: message.id,
@@ -101,9 +100,12 @@ io.on("connection", (socket) => {
       }
       let pks = rooms.find(room => room.roomId === mapSocketIdtoRoomId[socket.id]).pk;
       console.log(pks);
-      if (!oppo || (pks !== 0)) {
-        console.log("noOppo");
+      if (!oppo) {
         socket.emit("noOppo", "Your opponent is offline now.");
+        return;
+      }
+      else if (pks !== 0) {
+        socket.emit("noOppo", "你的隊友還沒按下下一把按鍵，等他一下吧!");
         return;
       }
       rooms.find(room => room.roomId === mapSocketIdtoRoomId[socket.id]).users.find(user => user.id === mapSocketIdtoUserId[socket.id]).lock = message.locked;
